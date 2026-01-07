@@ -4,6 +4,8 @@
  */
 package com.mycompany.hms;
 
+import javax.swing.*;
+
 /**
  *
  * @author KHAN GADGET
@@ -17,6 +19,8 @@ public class StaffDashboard extends javax.swing.JFrame {
      */
     public StaffDashboard() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
     }
 
     /**
