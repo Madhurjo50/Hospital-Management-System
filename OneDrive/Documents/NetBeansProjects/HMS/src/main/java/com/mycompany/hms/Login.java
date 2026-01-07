@@ -4,12 +4,25 @@ package com.mycompany.hms;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.*;
 
 
 public class Login extends javax.swing.JFrame {
      Connection conn;
     PreparedStatement pst;
     ResultSet rs;
+   public Connection connectDB() {
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hms", "root", "");
+        return conn;
+    } catch(Exception e) {
+        JOptionPane.showMessageDialog(null, "Database Connection Failed: " + e.getMessage());
+        return null;
+    }
+}
+
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
 
     /**
@@ -17,6 +30,9 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+
     }
 
     /**
@@ -191,7 +207,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Connect to database
-    java.sql.Connection conn = javaconnect.connectDB();
+    Connection conn = connectDB();
     if(conn == null){
         javax.swing.JOptionPane.showMessageDialog(null, "Database connection failed!");
         return;
@@ -206,29 +222,51 @@ public class Login extends javax.swing.JFrame {
 
         ResultSet rs = pst.executeQuery();
 
-        if(rs.next()){
-            javax.swing.JOptionPane.showMessageDialog(null, "Login Successful as " + role);
+        if (rs.next()) {
 
-            // Open respective Dashboard
-            switch(role){
-                case "Admin":
-                    new AdminDashboard().setVisible(true);
-                    break;
-                case "Doctor":
-                    new DoctorDashboard().setVisible(true);
-                    break;
-                case "Staff":
-                    new StaffDashboard().setVisible(true);
-                    break;
-                case "Patient":
-                    new PatientDashboard().setVisible(true);
-                    break;
-            }
+    // 🔴 Doctor approval check
+    if (role.equals("Doctor")) {
+        String status = rs.getString("status");
 
-            this.dispose(); // close login window
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Invalid Credentials or Wrong Role Selected!");
+        if (!status.equalsIgnoreCase("approved")) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Your account is pending admin approval!"
+            );
+            conn.close();
+            return;
         }
+    }
+
+    JOptionPane.showMessageDialog(null, "Login Successful as " + role);
+
+    switch (role) {
+        case "Admin":
+            new AdminDashboard().setVisible(true);
+            break;
+
+        case "Doctor":
+            new DoctorDashboard().setVisible(true);
+            break;
+
+        case "Staff":
+            new StaffDashboard().setVisible(true);
+            break;
+
+        case "Patient":
+            new PatientDashboard().setVisible(true);
+            break;
+    }
+
+    this.dispose();
+
+} else {
+    JOptionPane.showMessageDialog(
+        null,
+        "Invalid Credentials or Wrong Role Selected!"
+    );
+}
+
 
         conn.close();
 
