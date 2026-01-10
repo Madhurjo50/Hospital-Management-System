@@ -65,6 +65,8 @@ private void loadUsersByRole(String role) {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(0, 204, 204));
+
         jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\KHAN GADGET\\Downloads\\doctor (1).png")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
