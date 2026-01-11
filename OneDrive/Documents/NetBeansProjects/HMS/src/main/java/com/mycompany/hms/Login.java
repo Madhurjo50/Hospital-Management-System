@@ -1,11 +1,26 @@
 
 package com.mycompany.hms;
 
+import java.awt.*;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.*;
+class BackgroundPanel extends JPanel {
 
+    private Image backgroundImage;
+
+    public BackgroundPanel(String imagePath) {
+        backgroundImage = new ImageIcon(imagePath).getImage();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0,
+                getWidth(), getHeight(), this);
+    }
+}
 
 public class Login extends javax.swing.JFrame {
      Connection conn;
@@ -30,7 +45,30 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+       setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setLayout(new BorderLayout());
+
+    // login panel size
+    jPanel1.setPreferredSize(new Dimension(650, 420));
+   jPanel1.setBackground(new Color(0, 153, 153)); 
+
+
+    // background wrapper
+    BackgroundPanel centerWrapper =
+        new BackgroundPanel("C:\\Users\\KHAN GADGET\\Downloads\\login.JPEG");
+
+    centerWrapper.setLayout(new GridBagLayout());
+    centerWrapper.add(jPanel1);   // center e thakbe
+
+    // remove old layout
+    getContentPane().removeAll();
+
+    // add wrapper
+    add(centerWrapper, BorderLayout.CENTER);
+
+    revalidate();
+    repaint();
+
         
 
     }
@@ -203,14 +241,14 @@ public class Login extends javax.swing.JFrame {
 
     // Empty check
     if(username.isEmpty() || password.isEmpty()){
-        javax.swing.JOptionPane.showMessageDialog(null, "Please enter username & password!");
+        javax.swing.JOptionPane.showMessageDialog(null, "Please enter username & password");
         return;
     }
 
     // Connect to database
     Connection conn = connectDB();
     if(conn == null){
-        javax.swing.JOptionPane.showMessageDialog(null, "Database connection failed!");
+        javax.swing.JOptionPane.showMessageDialog(null, "Database connection failed");
         return;
     }
 
@@ -232,7 +270,7 @@ public class Login extends javax.swing.JFrame {
         if (!status.equalsIgnoreCase("approved")) {
             JOptionPane.showMessageDialog(
                 null,
-                "Your account is pending admin approval!"
+                "Your account is pending for admin approval"
             );
             conn.close();
             return;
@@ -264,7 +302,7 @@ public class Login extends javax.swing.JFrame {
 } else {
     JOptionPane.showMessageDialog(
         null,
-        "Invalid Credentials or Wrong Role Selected!"
+        "Invalid Credentials or Wrong Role Selected"
     );
 }
 

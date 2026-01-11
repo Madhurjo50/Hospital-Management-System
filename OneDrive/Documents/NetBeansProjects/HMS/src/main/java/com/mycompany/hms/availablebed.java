@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.mycompany.hms;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author KHAN GADGET
- */
+
 public class availablebed extends javax.swing.JPanel {
 private void loadAvailableBeds() {
 
@@ -77,6 +71,7 @@ private void loadAvailableBeds() {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
         jButton1.setText("Apply For Booking");
 

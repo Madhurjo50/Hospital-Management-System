@@ -64,6 +64,7 @@ public class addavailablebed extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(255, 153, 153));
         jButton1.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
         jButton1.setText("Add Bed");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
